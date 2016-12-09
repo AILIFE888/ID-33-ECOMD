@@ -1,8 +1,6 @@
 #ifndef INPUTS_H
 #define INPUTS_H
 
-#include <Arduino.h>
-
 //define game states (on main menu)
 #define STATE_GAME_PLAYING              8
 #define STATE_GAME_PAUSE                9
@@ -13,9 +11,6 @@
 #define STAGE_TOP                       2
 #define STAGE_BOTTOM                    3
 
-
-extern Arduboy arduboy;
-extern SimpleButtons buttons;
 extern unsigned char gameState;
 extern boolean isGrounded;
 extern byte jumpTimer;
@@ -25,9 +20,9 @@ byte waitingTimer;
 
 void checkInputs()
 {
-  if (buttons.justPressed(UP_BUTTON)) gameState = STATE_GAME_PAUSE;
+  if (arduboy.justPressed(UP_BUTTON)) gameState = STATE_GAME_PAUSE;
 
-  if (buttons.pressed(RIGHT_BUTTON))
+  if (arduboy.pressed(RIGHT_BUTTON))
   {
     playerFacing = PLAYER_FACING_RIGHT;
     waitingTimer = 0;
@@ -43,7 +38,7 @@ void checkInputs()
     }
   }
 
-  if (buttons.pressed(LEFT_BUTTON))
+  if (arduboy.pressed(LEFT_BUTTON))
   {
     playerFacing = PLAYER_FACING_LEFT;
     waitingTimer = 0;
@@ -59,7 +54,7 @@ void checkInputs()
     }
   }
 
-  if (buttons.notPressed(LEFT_BUTTON && RIGHT_BUTTON))
+  if (arduboy.notPressed(LEFT_BUTTON && RIGHT_BUTTON))
   {
     if (arduboy.everyXFrames(60)) waitingTimer++;
     if (waitingTimer > 5)
@@ -75,18 +70,18 @@ void checkInputs()
 
   }
 
-  if (buttons.pressed(A_BUTTON))
+  if (arduboy.pressed(A_BUTTON))
   {
     waitingTimer = 0;             //resetwaiting timer becauause you are shooting
     shoot();                      //BANG! BANG!
   }
 
-  if (buttons.justPressed(B_BUTTON) && isGrounded)
+  if (arduboy.justPressed(B_BUTTON) && isGrounded)
   {
     if (player.y > 4) player.y --;
     jumpTimer = 6;
     isGrounded = false;
-    arduboy.tunes.tone(60, 100);
+    sound.tone(60, 100);
   }
 }
 

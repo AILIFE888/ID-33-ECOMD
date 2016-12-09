@@ -1,10 +1,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <Arduino.h>
-#include "physics.h"
-
-
 //define player facing states (in game)
 #define PLAYER_FACING_RIGHT       0
 #define PLAYER_FACING_LEFT        1
@@ -15,9 +11,6 @@
 #define STAGE_TOP                       2
 #define STAGE_BOTTOM                    3
 
-
-extern Sprites sprites;
-extern Physics physics;
 extern byte walkingFrame;
 extern byte waitingFrame;
 
@@ -86,7 +79,7 @@ boolean checkCollisions()
   playerRect.height = 8;
   for (byte i = 0; i < 4; i++)
   {
-    if (physics.collide(playerRect, wall[i])) return true;
+    if (arduboy.collide(playerRect, wall[i])) return true;
   }
   return false;
 }
@@ -100,7 +93,7 @@ boolean checkIfGrounded()
   playerRect.height = 8;
   for (byte i = 0; i < 4; i++)
   {
-    if (physics.collide(playerRect, wall[i]))
+    if (arduboy.collide(playerRect, wall[i]))
     {
       isGrounded = true;
       return true;
