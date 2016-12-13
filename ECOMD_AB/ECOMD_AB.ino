@@ -1,7 +1,7 @@
 /*
  EPIC CRATES OF MASS DESTRUCTION : http://www.team-arg.org/ecomd-manual.html
 
- Arduboy version 1.0:  http://www.team-arg.org/ecomd-downloads.html
+ Arduboy version 1.1:  http://www.team-arg.org/ecomd-downloads.html
 
  MADE by TEAM a.r.g. : http://www.team-arg.org/more-about.html
 
@@ -14,14 +14,18 @@
 //determine the game
 #define GAME_ID 33
 
-#include <SPI.h>
-#include <EEPROM.h>
-#include "Arglib.h"
+#include <Arduboy2.h>
+#include <ArduboyTones.h>
+
+Arduboy2Base arduboy;
+Sprites sprites;
+ArduboyTones sound(arduboy.audio.enabled);
+
 #include "menu_bitmap.h"
-#include "physics.h"
+#include "Rects.h"
 #include "Player.h"
-#include "Crate.h"
 #include "Weapons.h"
+#include "Crate.h"
 #include "Enemy.h"
 #include "score.h"
 #include "inputs.h"
@@ -40,13 +44,7 @@
 #define STATE_GAME_PAUSE         9
 #define STATE_GAME_OVER          10
 
-
-Arduboy arduboy;
-SimpleButtons buttons (arduboy);
-Sprites sprites(arduboy);
-
 unsigned char gameState = STATE_MENU_MAIN;
-boolean soundYesNo;
 int menuSelection;
 byte counter = 0;
 
@@ -57,21 +55,17 @@ int scorePlayer;
 
 void setup()
 {
-  arduboy.start();
+  arduboy.begin();
   arduboy.setFrameRate(60);
-  if (EEPROM.read(EEPROM_AUDIO_ON_OFF)) soundYesNo = true;
   arduboy.initRandomSeed();
   gameState = STATE_MENU_INTRO;
   menuSelection = STATE_MENU_PLAY;
-  Serial.begin(9600);
 }
 
 void loop() {
   if (!(arduboy.nextFrame())) return;
-  buttons.poll();
-  if (soundYesNo == true) arduboy.audio.on();
-  else arduboy.audio.off();
-  arduboy.clearDisplay();
+  arduboy.pollButtons();
+  arduboy.clear();
   switch (gameState)
   {
     case STATE_MENU_INTRO:
@@ -83,30 +77,31 @@ void loop() {
       // show the splash art
       arduboy.drawCompressed(0, 0, title_bitmap, WHITE);
       sprites.drawSelfMasked(20, 56, mainmenu_is_mask, menuSelection - 2);
-      if (buttons.justPressed(RIGHT_BUTTON) && (menuSelection < 5))menuSelection++;
-      if (buttons.justPressed(LEFT_BUTTON) && (menuSelection > 2))menuSelection--;
-      if (buttons.justPressed(A_BUTTON | B_BUTTON)) gameState = menuSelection;
+      if (arduboy.justPressed(RIGHT_BUTTON) && (menuSelection < 5))menuSelection++;
+      if (arduboy.justPressed(LEFT_BUTTON) && (menuSelection > 2))menuSelection--;
+      if (arduboy.justPressed(A_BUTTON) || arduboy.justPressed(B_BUTTON))
+        gameState = menuSelection;
       break;
     case STATE_MENU_HELP: // QR code
       arduboy.drawCompressed(32, 0, qrcode_bitmap, WHITE);
-      if (buttons.justPressed(A_BUTTON | B_BUTTON)) gameState = STATE_MENU_MAIN;
+      if (arduboy.justPressed(A_BUTTON) || arduboy.justPressed(B_BUTTON))
+        gameState = STATE_MENU_MAIN;
       break;
     case STATE_MENU_INFO: // infoscreen
       arduboy.drawCompressed(20, 0, info_bitmap, WHITE);
-      if (buttons.justPressed(A_BUTTON | B_BUTTON)) gameState = STATE_MENU_MAIN;
+      if (arduboy.justPressed(A_BUTTON) || arduboy.justPressed(B_BUTTON))
+        gameState = STATE_MENU_MAIN;
       break;
     case STATE_MENU_SOUNDFX: // soundconfig screen
       arduboy.drawCompressed(0, 0, title_bitmap, WHITE);
-      sprites.drawSelfMasked(22, 56, soundYesNo_is_mask, soundYesNo);
-      if (buttons.justPressed(RIGHT_BUTTON)) soundYesNo = true;
-      if (buttons.justPressed(LEFT_BUTTON)) soundYesNo = false;
-      if (buttons.justPressed(A_BUTTON | B_BUTTON))
+      sprites.drawSelfMasked(22, 56, soundYesNo_is_mask, arduboy.audio.enabled());
+      if (arduboy.justPressed(RIGHT_BUTTON)) arduboy.audio.on();
+      if (arduboy.justPressed(LEFT_BUTTON)) arduboy.audio.off();
+      if (arduboy.justPressed(A_BUTTON) || arduboy.justPressed(B_BUTTON))
       {
-        arduboy.audio.save_on_off();
+        arduboy.audio.saveOnOff();
         gameState = STATE_MENU_MAIN;
       }
-      if (soundYesNo == true) arduboy.audio.on();
-      else arduboy.audio.off();
       break;
     case STATE_MENU_PLAY:
       setupGame();
@@ -135,11 +130,12 @@ void loop() {
     case STATE_GAME_OVER:
       arduboy.drawCompressed(0, 0, gameover_bitmap, WHITE);
       drawScore(14, 32, SCORE_BIG_FONT);
-      if (buttons.justPressed(A_BUTTON | B_BUTTON)) gameState = STATE_MENU_MAIN;
+      if (arduboy.justPressed(A_BUTTON) || arduboy.justPressed(B_BUTTON))
+        gameState = STATE_MENU_MAIN;
       break;
     case STATE_GAME_PAUSE:
       arduboy.drawCompressed(0, 0, pause_bitmap, WHITE);
-      if (buttons.justPressed(UP_BUTTON)) gameState = STATE_GAME_PLAYING;
+      if (arduboy.justPressed(UP_BUTTON)) gameState = STATE_GAME_PLAYING;
       break;
   }
   arduboy.display();

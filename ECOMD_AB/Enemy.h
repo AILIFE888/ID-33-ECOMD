@@ -1,8 +1,6 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include <Arduino.h>
-
 #define FRAME_DELAY_START         3
 #define HP_MAX_SMALL              2
 #define HP_MAX_MID                3
@@ -15,7 +13,6 @@
 #define STATE_GAME_OVER          10
 
 extern int scorePlayer;
-extern Sprites sprites;
 extern unsigned char gameState;
 
 byte enemyWalkingFrame;
@@ -282,7 +279,7 @@ void checkEnemyCollisions()
       boolean enemyGrounded = false;
       for (byte i = 0; i < 4; i++)
       {
-        if (physics.collide(enemyRect, wall[i]))
+        if (arduboy.collide(enemyRect, wall[i]))
         {
           enemyGrounded = true;
         }
@@ -316,7 +313,7 @@ void checkEnemyCollisions()
       playerRect.width = 4;
       playerRect.height = 4;
 
-      if (physics.collide(playerRect, enemyRect)) gameState = STATE_GAME_OVER;
+      if (arduboy.collide(playerRect, enemyRect)) gameState = STATE_GAME_OVER;
       
 
       //check bullets
@@ -334,7 +331,7 @@ void checkEnemyCollisions()
           bulletRect.y = weapon.bullet[ii].y;
           bulletRect.width = weapon.bullet[ii].width;
           bulletRect.height = weapon.bullet[ii].height;
-          if (physics.collide(enemyRect, bulletRect))
+          if (arduboy.collide(enemyRect, bulletRect))
           {
             enemy[i].takeDamage(weapon.bullet[ii].damage);
             if (CURRENT_WEAPON != SHOTGUN)

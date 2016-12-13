@@ -1,13 +1,7 @@
 #ifndef CRATE_H
 #define CRATE_H
 
-#include <Arduino.h>
-#include "physics.h"
-#include "Weapons.h"
-
 extern int scorePlayer;
-extern Arduboy arduboy;
-extern Physics physics;
 
 PROGMEM const unsigned char crate_plus_mask[] = {
   // width, height
@@ -83,9 +77,9 @@ void checkCrateCollisions()
   crateRect.width = 8;
   crateRect.height = 8;
 
-  if (physics.collide(playerRect, crateRect)) {
+  if (arduboy.collide(playerRect, crateRect)) {
     scorePlayer += 100;
-    arduboy.tunes.tone(300, 100);
+    sound.tone(300, 100);
     switch (crate.weapon) {
       case 0:
         CURRENT_WEAPON = DEFAULT_GUN;

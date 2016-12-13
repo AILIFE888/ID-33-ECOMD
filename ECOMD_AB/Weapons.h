@@ -1,11 +1,6 @@
 #ifndef WEAPONS_H
 #define WEAPONS_H
 
-#include <Arduino.h>
-
-extern Arduboy arduboy;
-extern SimpleButtons buttons;
-
 #define POWERUP_MAXTIME     600
 enum WEAPON_TYPE { DEFAULT_GUN = 0, SHOTGUN, MAGNUM, MACHINEGUN, FLAMETHROWER, DUAL_PISTOLS};
 WEAPON_TYPE CURRENT_WEAPON;
@@ -291,29 +286,29 @@ void makeShootingSounds() //pew pew sound
   switch (CURRENT_WEAPON)
   {
     case DEFAULT_GUN:
-      arduboy.tunes.tone(100, 100);
+      sound.tone(100, 100);
       break;
     case SHOTGUN:
-      arduboy.tunes.tone(140, 300);
+      sound.tone(140, 300);
       break;
     case MAGNUM:
-      arduboy.tunes.tone(190, 300);
+      sound.tone(190, 300);
       break;
     case MACHINEGUN:
-      arduboy.tunes.tone(120, 100);
+      sound.tone(120, 100);
       break;
     case FLAMETHROWER:
-      arduboy.tunes.tone(100, 80);
+      sound.tone(100, 80);
       break;
     case DUAL_PISTOLS:
-      arduboy.tunes.tone(100, 100);
+      sound.tone(100, 100);
       break;
   }
 }
 
 void shoot()
 {
-  if ((buttons.pressed(A_BUTTON) && CURRENT_WEAPON == MACHINEGUN)  || (buttons.pressed(A_BUTTON) && CURRENT_WEAPON == FLAMETHROWER) || buttons.justPressed(A_BUTTON))
+  if ((arduboy.pressed(A_BUTTON) && CURRENT_WEAPON == MACHINEGUN)  || (arduboy.pressed(A_BUTTON) && CURRENT_WEAPON == FLAMETHROWER) || arduboy.justPressed(A_BUTTON))
   {
     //shoot normal bullets
     if (weapon.shoot()) {
