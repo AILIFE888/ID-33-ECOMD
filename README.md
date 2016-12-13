@@ -3,9 +3,11 @@
 (http://www.team-arg.org/masterfiles/team-arg-ecomd/images/banner-ID-33.png)
 
 EPIC CRATES OF MASS DESTRUCTION : http://www.team-arg.org/ecomd-manual.html  
-Download stable Arduboy versions :  http://www.team-arg.org/ecomd-downloads.html  
+**Download stable Arduboy versions :**  https://github.com/TEAMarg/ID-33-ECOMD/releases/latest
 MADE by TEAM a.r.g. : http://www.team-arg.org/more-about.html
 
 2015 - DRAGULA96 - JO3RI  (Firepit animation by @JUSTIN_CYR)
+
+Thanks to MLXXXP for his help on switching from ARGlib to the Arduboy 2 library
 
 Game License: MIT : https://opensource.org/licenses/MIT
