@@ -14,14 +14,7 @@
 //determine the game
 #define GAME_ID 33
 
-#include <Arduboy2.h>
-#include <ArduboyTones.h>
-
-Arduboy2Base arduboy;
-Sprites sprites;
-ArduboyTones sound(arduboy.audio.enabled);
-
-#include "menu_bitmap.h"
+#include "globals.h"
 #include "Rects.h"
 #include "Player.h"
 #include "Weapons.h"
@@ -31,35 +24,12 @@ ArduboyTones sound(arduboy.audio.enabled);
 #include "inputs.h"
 #include "background.h"
 
-//define menu states (on main menu)
-#define STATE_MENU_INTRO         0
-#define STATE_MENU_MAIN          1
-#define STATE_MENU_HELP          2
-#define STATE_MENU_PLAY          3
-#define STATE_MENU_INFO          4
-#define STATE_MENU_SOUNDFX       5
-
-//define game states (on main menu)
-#define STATE_GAME_PLAYING       8
-#define STATE_GAME_PAUSE         9
-#define STATE_GAME_OVER          10
-
-unsigned char gameState = STATE_MENU_MAIN;
-int menuSelection;
-byte counter = 0;
-
-byte walkingFrame;
-byte waitingFrame;
-int scorePlayer;
-
 
 void setup()
 {
   arduboy.begin();
   arduboy.setFrameRate(60);
   arduboy.initRandomSeed();
-  gameState = STATE_MENU_INTRO;
-  menuSelection = STATE_MENU_PLAY;
 }
 
 void loop() {
@@ -70,8 +40,8 @@ void loop() {
   {
     case STATE_MENU_INTRO:
       arduboy.drawCompressed(0, 4, TEAMarg2, WHITE);
-      counter++;
-      if (counter > 40) gameState = STATE_MENU_MAIN;
+      globalCounter++;
+      if (globalCounter > 40) gameState = STATE_MENU_MAIN;
       break;
     case STATE_MENU_MAIN:
       // show the splash art
