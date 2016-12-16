@@ -109,4 +109,11 @@ void checkCrateCollisions()
     crate.randomizeCrate();
   }
 }
+
+
+void drawCrates()
+{
+  sprites.drawPlusMask(crate.x, crate.y, crate_plus_mask, 0);
+}
+
 #endif

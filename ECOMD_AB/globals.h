@@ -16,18 +16,11 @@
 #define STATE_MENU_SOUNDFX           5
 
 //define game states (on main menu)
-#define STATE_GAME_PLAYING           8
-#define STATE_GAME_PAUSE             9
-#define STATE_GAME_OVER              10
-
-/*
-//define game states (on main menu)
 #define STATE_GAME_INIT_LEVEL        6
 #define STATE_GAME_PLAYING           7
 #define STATE_GAME_PAUSE             8
 #define STATE_GAME_OVER              9
 
-*/
 Arduboy2Base arduboy;
 Sprites sprites;
 ArduboyTones sound(arduboy.audio.enabled);

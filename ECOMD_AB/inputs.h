@@ -1,11 +1,6 @@
 #ifndef INPUTS_H
 #define INPUTS_H
 
-//define game states (on main menu)
-#define STATE_GAME_PLAYING              8
-#define STATE_GAME_PAUSE                9
-#define STATE_GAME_OVER                 10
-
 #define STAGE_LEFT                      0
 #define STAGE_RIGHT                     1
 #define STAGE_TOP                       2
@@ -16,7 +11,6 @@ extern boolean isGrounded;
 extern byte jumpTimer;
 
 byte waitingTimer;
-
 
 void checkInputs()
 {
@@ -67,7 +61,6 @@ void checkInputs()
         if (waitingFrame > 35) waitingFrame = 0;
       }
     }
-
   }
 
   if (arduboy.pressed(A_BUTTON))
