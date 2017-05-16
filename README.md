@@ -1,6 +1,5 @@
 # Epic Crates Of Mass Destruction 
-![Image]
-(http://www.team-arg.org/masterfiles/team-arg-ecomd/images/banner-ID-33.png)
+![Image](http://www.team-arg.org/masterfiles/team-arg-ecomd/images/banner-ID-33.png)
 
 EPIC CRATES OF MASS DESTRUCTION : http://www.team-arg.org/ecomd-manual.html  
 
