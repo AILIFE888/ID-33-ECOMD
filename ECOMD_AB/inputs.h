@@ -8,7 +8,7 @@
 
 extern unsigned char gameState;
 extern boolean isGrounded;
-extern byte jumpTimer;
+extern int playerYVelocity;
 
 byte waitingTimer;
 
@@ -72,7 +72,7 @@ void checkInputs()
   if (arduboy.justPressed(B_BUTTON) && isGrounded)
   {
     if (player.y > 4) player.y --;
-    jumpTimer = 6;
+    playerYVelocity = 7;
     isGrounded = false;
     sound.tone(60, 100);
   }

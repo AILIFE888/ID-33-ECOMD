@@ -113,8 +113,7 @@ class Weapons
     void weaponSet(int weapType)
     {
       powerupTimer = POWERUP_MAXTIME;
-      setBulletSpecs();
-      switch (weapType) {
+        switch (weapType) {
         case 0: //DEFAULT GUN
           frameDelay = 1;
           maxFuse = 30;
@@ -123,7 +122,7 @@ class Weapons
           kickBack = 0;
           cooldown = 0;
           width = 4;
-          height = 1;
+          height = 2;
           xSpeed = 3;
           xSpeedOffset = 0;
           yOffset = 0;
@@ -139,7 +138,7 @@ class Weapons
           kickBack = 8;
           cooldown = 0;
           width = 16;
-          height = 7;
+          height = 8;
           xSpeed = 1;
           ySpeed = 0;
           yOffset = 0;
@@ -153,8 +152,8 @@ class Weapons
           maxCooldown =  20;
           kickBack = 4;
           cooldown = 0;
-          width = 4;
-          height = 2;
+          width = 5;
+          height = 3;
           xSpeed = 3;
           xSpeedOffset = 0;
           ySpeed = 0;
@@ -170,7 +169,7 @@ class Weapons
           kickBack = 5;
           cooldown = 0;
           width = 5;
-          height = 2;
+          height = 3;
           xSpeed = 4;
           xSpeedOffset = 0;
           ySpeed = 0;
@@ -185,8 +184,8 @@ class Weapons
           maxCooldown =  4;
           cooldown = 0;
           kickBack = 0;
-          width = 5;
-          height = 5;
+          width = 6;
+          height = 6;
           xSpeed = 3;
           xSpeedOffset = 2;
           ySpeed = 0;
@@ -202,8 +201,8 @@ class Weapons
           maxCooldown = 3;
           kickBack = 0;
           cooldown = 0;
-          width = 3;
-          height = 1;
+          width = 4;
+          height = 2;
           xSpeed = 3;
           xSpeedOffset = 0;
           yOffset = 0;
@@ -212,6 +211,7 @@ class Weapons
           damage = 1;
           break;
       }
+      setBulletSpecs();
     }
 };
 

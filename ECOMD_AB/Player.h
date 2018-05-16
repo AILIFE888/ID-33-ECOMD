@@ -16,9 +16,8 @@ extern byte waitingFrame;
 
 byte playerFacing = PLAYER_FACING_RIGHT;
 boolean isGrounded = false;
-byte jumpTimer = 0;
-const byte gravityDelay = 4;
-byte gravityCounter = gravityDelay;
+const byte gravity = 1;
+int playerYVelocity = 0;
 
 PROGMEM const byte playerWalks[] = { 1, 2, 3, 2, 4, 5, 6, 5,};
 PROGMEM const byte playerWaiting[] = {0, 7, 0, 7, 0, 0, 0, 0, 0, 8, 9, 8, 0, 0, 0, 0, 1, 1, 1, 1, 0, 4, 4, 4, 4, 0, 0, 0, 7, 0, 7, 0, 0, 0, 0, 0};
@@ -74,25 +73,21 @@ boolean checkIfGrounded()
 
 void gravityEffect()
 {
-  if (jumpTimer > 0)
-  {
-    jumpTimer--;
-    for (byte i = 0; i < 5; i++)
-    {
-      if (!checkCollisions() && (player.y > 2))
-        player.y --;
-    }
-  }
+  playerYVelocity -= gravity;
+  if (playerYVelocity < -2) playerYVelocity = -2;
 
-  gravityCounter--;
-  if (gravityCounter < 2)
-  {
-    gravityCounter = gravityDelay;
-    for (byte i = 0; i < 3; i++)
-    {
+
+  if (playerYVelocity > 0) //if jumping up
+    for (int i = 0; i < playerYVelocity; i++) {
+      if (!checkCollisions() && (player.y > 2)) player.y --;
+    }
+
+
+
+  if (playerYVelocity < 0) //if Falling
+    for (int i = 0; i > playerYVelocity; i--) {
       if (!checkIfGrounded())player.y++;
     }
-  }
 }
 
 
